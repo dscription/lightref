@@ -1,16 +1,11 @@
 import React, { Component, useState, useRef, Suspense } from "react";
 import styled from "styled-components";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, Sphere } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useHelper } from "@react-three/drei";
 import { SpotLightHelper } from "three";
-
-const ThreeDContainer = styled.div`
-  background-color: white;
-  height: 100%;
-  width: 100%;
-`;
+import { Controls, useControl, withControls } from "react-three-gui";
 
 function Plane() {
   return (
@@ -38,13 +33,32 @@ const Head = () => {
 };
 
 function Scene() {
-  const light = useRef()
-  useHelper(light, SpotLightHelper, 'cyan')
+  const light = useRef();
+  useHelper(light, SpotLightHelper, "cyan");
+  const spotLightX = useControl("Spotlight Pos X", {
+    type: "number",
+    spring: false,
+  });
+
+  const spotLightY = useControl("Spotlight Pos Y", {
+    type: "number",
+    spring: false,
+  });
+
+  const spotLightZ = useControl("Spotlight Pos Z", {
+    type: "number",
+    spring: false,
+  });
 
   return (
     <>
       {/* <ambientLight /> */}
-      <spotLight ref={light} castShadow={true} intensity={0.6} position={[15, 5, 10]} />
+      <spotLight
+        ref={light}
+        castShadow={true}
+        intensity={0.6}
+        position={[spotLightX, spotLightY, spotLightZ]}
+      />
       <Suspense fallback={null}>
         <Head />
       </Suspense>
@@ -54,15 +68,15 @@ function Scene() {
   );
 }
 
+const MainCanvas = withControls(Canvas);
+
 class ThreeD extends Component {
   state = {};
   render() {
     return (
-      <ThreeDContainer>
-        <Canvas style={{ height: "100vh" }}>
-          <Scene />
-        </Canvas>
-      </ThreeDContainer>
+      <MainCanvas style={{ height: "100vh" }}>
+        <Scene />
+      </MainCanvas>
     );
   }
 }

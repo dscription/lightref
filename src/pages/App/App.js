@@ -1,10 +1,12 @@
 import ThreeD from "../../components/ThreeD/ThreeD";
+import { Controls } from "react-three-gui";
 
 function App() {
   return (
-    <div className="App">
-        <ThreeD />
-    </div>
+    <Controls.Provider>
+      <ThreeD />
+      <Controls />
+    </Controls.Provider>
   );
 }
 
