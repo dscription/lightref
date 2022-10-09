@@ -2,6 +2,9 @@ import React, { Component, useState, useRef, Suspense } from "react";
 import styled from "styled-components";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Sphere } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useHelper } from "@react-three/drei";
+import { SpotLightHelper } from "three";
 
 const ThreeDContainer = styled.div`
   background-color: white;
@@ -22,22 +25,28 @@ function Plane() {
   );
 }
 
+const Head = () => {
+  const ref = useRef();
+  const gltf = useLoader(GLTFLoader, "/asaro.glb");
+
+  useFrame(() => {
+    // ref.current.rotation.x += 0.01;
+    // ref.current.rotation.y += 0.01;
+  });
+  // return <primitive position={[0, -1.2, 0]} object={gltf.scene} />;
+  return <primitive position={[0, -1.2, 0]} ref={ref} object={gltf.scene} />;
+};
+
 function Scene() {
-  const startingXPos = -3;
-  const spaceBetween = 3;
-  const startingZPos = -2;
+  const light = useRef()
+  useHelper(light, SpotLightHelper, 'cyan')
 
   return (
     <>
-      <ambientLight />
-      <spotLight castShadow={true} intensity={0.6} position={[0, 10, 4]} />
+      {/* <ambientLight /> */}
+      <spotLight ref={light} castShadow={true} intensity={0.6} position={[15, 5, 10]} />
       <Suspense fallback={null}>
-        <Sphere
-        // key={index}
-        // position={[(startingXPos + index) * spaceBetween, 0, startingZPos]}
-        >
-          <meshBasicMaterial attach="material" color="blue" />
-        </Sphere>
+        <Head />
       </Suspense>
       <Plane />
       <OrbitControls />
@@ -50,7 +59,7 @@ class ThreeD extends Component {
   render() {
     return (
       <ThreeDContainer>
-        <Canvas>
+        <Canvas style={{ height: "100vh" }}>
           <Scene />
         </Canvas>
       </ThreeDContainer>
