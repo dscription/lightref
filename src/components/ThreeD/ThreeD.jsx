@@ -24,29 +24,35 @@ const Head = () => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, "/asaro.glb");
 
-  useFrame(() => {
-    // ref.current.rotation.x += 0.01;
-    // ref.current.rotation.y += 0.01;
-  });
-  // return <primitive position={[0, -1.2, 0]} object={gltf.scene} />;
-  return <primitive position={[0, -1.2, 0]} ref={ref} object={gltf.scene} />;
+  
+  return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />;
 };
 
 function Scene() {
   const light = useRef();
   useHelper(light, SpotLightHelper, "cyan");
+
   const spotLightX = useControl("Spotlight Pos X", {
     type: "number",
+    min: -10,
+    max: 10,
+    distance: 3,
     spring: false,
   });
 
   const spotLightY = useControl("Spotlight Pos Y", {
     type: "number",
+    min: -10,
+    max: 10,
+    distance: 3,
     spring: false,
   });
 
   const spotLightZ = useControl("Spotlight Pos Z", {
     type: "number",
+    min: -10,
+    max: 10,
+    distance: 3,
     spring: false,
   });
 

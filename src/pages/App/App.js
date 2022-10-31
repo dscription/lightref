@@ -5,7 +5,7 @@ function App() {
   return (
     <Controls.Provider>
       <ThreeD />
-      <Controls />
+      <Controls width={300} />
     </Controls.Provider>
   );
 }
