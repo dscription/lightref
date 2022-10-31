@@ -20,9 +20,11 @@ function Plane() {
   );
 }
 
-const Head = () => {
+const headString = "/asaro.glb"
+
+const Head = ({locationString}) => {
   const ref = useRef();
-  const gltf = useLoader(GLTFLoader, "/asaro.glb");
+  const gltf = useLoader(GLTFLoader, locationString);
 
   
   return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />;
@@ -30,6 +32,7 @@ const Head = () => {
 
 function Scene() {
   const light = useRef();
+  const [obj, setObj] = useState("/asaro.glb")
   useHelper(light, SpotLightHelper, "cyan");
 
   const spotLightX = useControl("Spotlight Pos X", {
@@ -56,17 +59,23 @@ function Scene() {
     spring: false,
   });
 
+  const spotLightIntensity = useControl("Spotlight Intensity", {
+    type: "number",
+    min: 0,
+    max: 1,
+  });
+
   return (
     <>
       {/* <ambientLight /> */}
       <spotLight
         ref={light}
         castShadow={true}
-        intensity={0.6}
+        intensity={spotLightIntensity}
         position={[spotLightX, spotLightY, spotLightZ]}
       />
       <Suspense fallback={null}>
-        <Head />
+        <Head locationString={obj}/>
       </Suspense>
       <Plane />
       <OrbitControls />
