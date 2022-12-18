@@ -1,6 +1,6 @@
 import React, { Component, useState, useRef, Suspense } from "react";
 import styled from "styled-components";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useHelper } from "@react-three/drei";
@@ -24,7 +24,7 @@ const Head = ({ locationString }) => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, locationString);
 
-  return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />;
+  return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />
 };
 
 const Box = (props) => {
@@ -41,6 +41,18 @@ const Box = (props) => {
 function Scene() {
   const light = useRef();
   const [renderObj, setRenderObj] = useState("Asaro Head");
+  const gl = useThree((state) => state.gl)
+
+  useControl("Screenshot", {
+    type: "button",
+    onClick: () => {
+      const link = document.createElement('a')
+      link.setAttribute('download', 'canvas.png')
+      link.setAttribute('href', gl.domElement.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
+      link.click()
+    }
+
+  } )
 
   useHelper(light, SpotLightHelper, "cyan");
 
@@ -110,7 +122,7 @@ class ThreeD extends Component {
   state = {};
   render() {
     return (
-      <MainCanvas style={{ height: "100vh" }}>
+      <MainCanvas gl={{ preserveDrawingBuffer: true }} style={{ height: "100vh" }}>
         <Scene />
       </MainCanvas>
     );

@@ -4,7 +4,8 @@ AAU:
   [] Square
   [] Sphere
   [] Asaro Head
-[] Get a snapshot of lighting and download.
+[x] Get a snapshot of lighting and download.
+[] Keep my object centered as I revolve around it
 
 
 Action Items:
@@ -14,4 +15,6 @@ Action Items:
   [X] Cube
   [] Sphere
 [] Change color of object
-[]
+[] Change BG color
+[x] Export snapshot
+[] Camera controls should revolve around centered object
