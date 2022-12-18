@@ -20,33 +20,44 @@ function Plane() {
   );
 }
 
-const headString = "/asaro.glb"
-
-const Head = ({locationString}) => {
+const Head = ({ locationString }) => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, locationString);
 
-  
   return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />;
+};
+
+const Box = (props) => {
+  const ref = useRef();
+
+  return (
+    <mesh ref={ref}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={"orange"} />
+    </mesh>
+  );
 };
 
 function Scene() {
   const light = useRef();
-  const [obj, setObj] = useState("/asaro.glb")
+  const [renderObj, setRenderObj] = useState("Asaro Head");
+
   useHelper(light, SpotLightHelper, "cyan");
 
   const spotLightX = useControl("Spotlight Pos X", {
     type: "number",
     min: -10,
     max: 10,
+    value: .8,
     distance: 3,
     spring: false,
   });
 
   const spotLightY = useControl("Spotlight Pos Y", {
     type: "number",
-    min: -10,
+    min: -1.99,
     max: 10,
+    value: 1, 
     distance: 3,
     spring: false,
   });
@@ -55,6 +66,7 @@ function Scene() {
     type: "number",
     min: -10,
     max: 10,
+    value: 4,
     distance: 3,
     spring: false,
   });
@@ -63,6 +75,14 @@ function Scene() {
     type: "number",
     min: 0,
     max: 1,
+    value: 0.5
+  });
+
+  const objectSelect = useControl("Choose Shape", {
+    type: "select",
+    value: "Asaro Head",
+    items: ["Asaro Head", "Cube", "Sphere"],
+    onChange: (val) => setRenderObj(val),
   });
 
   return (
@@ -75,7 +95,8 @@ function Scene() {
         position={[spotLightX, spotLightY, spotLightZ]}
       />
       <Suspense fallback={null}>
-        <Head locationString={obj}/>
+        {renderObj === "Asaro Head" && <Head locationString={"/asaro.glb"} />}
+        {renderObj === "Cube" && <Box position={[-1.2, 0, 0]} />}
       </Suspense>
       <Plane />
       <OrbitControls />
