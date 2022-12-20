@@ -1,11 +1,29 @@
-import React, { Component, useState, useRef, Suspense } from "react";
-import styled from "styled-components";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import React, { Component, useState, useRef, Suspense, useEffect } from "react";
+import { Canvas, useLoader, useThree } from "@react-three/fiber";
+// import { OrbitControls } from "@react-three/drei";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useHelper } from "@react-three/drei";
 import { SpotLightHelper } from "three";
-import { Controls, useControl, withControls } from "react-three-gui";
+import { useControl, withControls } from "react-three-gui";
+
+const CameraController = () => {
+  const { camera, gl } = useThree();
+  useEffect(
+    () => {
+      const controls = new OrbitControls(camera, gl.domElement);
+
+      controls.minDistance = 3;
+      controls.maxDistance = 20;
+      return () => {
+        controls.dispose();
+      };
+    },
+    [camera, gl]
+  );
+  return null;
+};
 
 function Plane() {
   return (
@@ -24,7 +42,7 @@ const Head = ({ locationString }) => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, locationString);
 
-  return <primitive position={[0, 0, 2]} ref={ref} object={gltf.scene} />
+  return <primitive position={[0, 0, -1]} ref={ref} object={gltf.scene} scale={[1.5,1.5,1.5]}/>
 };
 
 const Box = (props) => {
@@ -96,10 +114,11 @@ function Scene() {
     items: ["Asaro Head", "Cube", "Sphere"],
     onChange: (val) => setRenderObj(val),
   });
-
+  
   return (
     <>
       {/* <ambientLight /> */}
+      {/* <CameraController /> */}
       <spotLight
         ref={light}
         castShadow={true}
@@ -108,10 +127,10 @@ function Scene() {
       />
       <Suspense fallback={null}>
         {renderObj === "Asaro Head" && <Head locationString={"/asaro.glb"} />}
-        {renderObj === "Cube" && <Box position={[-1.2, 0, 0]} />}
+        {renderObj === "Cube" && <Box position={[0, 0, 0]} />}
       </Suspense>
-      <Plane />
-      <OrbitControls />
+      {/* <Plane /> */}
+      {/* <OrbitControls /> */}
     </>
   );
 }
@@ -123,6 +142,7 @@ class ThreeD extends Component {
   render() {
     return (
       <MainCanvas gl={{ preserveDrawingBuffer: true }} style={{ height: "100vh" }}>
+        <CameraController />
         <Scene />
       </MainCanvas>
     );
