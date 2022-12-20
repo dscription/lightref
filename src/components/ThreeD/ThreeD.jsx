@@ -44,7 +44,7 @@ const Head = ({ locationString }) => {
       position={[0, 0, -1]}
       ref={ref}
       object={gltf.scene}
-      scale={[1.5, 1.5, 1.5]}
+      scale={[2, 2, 2]}
     />
   );
 };
@@ -126,7 +126,6 @@ function Scene() {
   return (
     <>
       {/* <ambientLight /> */}
-      {/* <CameraController /> */}
       <spotLight
         ref={light}
         castShadow={true}
@@ -134,11 +133,10 @@ function Scene() {
         position={[spotLightX, spotLightY, spotLightZ]}
       />
       <Suspense fallback={null}>
-        {renderObj === "Asaro Head" && <Head locationString={"/lightref/asaro.glb"} />}
+        {renderObj === "Asaro Head" && <Head locationString={"/asaro.glb"} />}
         {renderObj === "Cube" && <Box position={[0, 0, 0]} />}
       </Suspense>
       {/* <Plane /> */}
-      {/* <OrbitControls /> */}
     </>
   );
 }
