@@ -44,7 +44,7 @@ const Head = ({ locationString }) => {
       position={[0, 0, -1]}
       ref={ref}
       object={gltf.scene}
-      scale={[1.5, 1.5, 1.5]}
+      scale={[2, 2, 2]}
     />
   );
 };
