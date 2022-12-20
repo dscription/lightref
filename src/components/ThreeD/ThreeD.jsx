@@ -134,9 +134,7 @@ function Scene() {
         position={[spotLightX, spotLightY, spotLightZ]}
       />
       <Suspense fallback={null}>
-        {renderObj === "Asaro Head" && (
-          <Head locationString={"../asaro.glb"} />
-        )}
+        {renderObj === "Asaro Head" && <Head locationString={"/asaro.glb"} />}
         {renderObj === "Cube" && <Box position={[0, 0, 0]} />}
       </Suspense>
       {/* <Plane /> */}
