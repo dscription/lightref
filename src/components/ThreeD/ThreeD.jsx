@@ -135,7 +135,7 @@ function Scene() {
       />
       <Suspense fallback={null}>
         {renderObj === "Asaro Head" && (
-          <Head locationString={"/public/asaro.glb"} />
+          <Head locationString={"/lightref/public/asaro.glb"} />
         )}
         {renderObj === "Cube" && <Box position={[0, 0, 0]} />}
       </Suspense>
