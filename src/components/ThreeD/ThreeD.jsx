@@ -1,12 +1,12 @@
 import React, { Component, useState, useRef, Suspense, useEffect } from "react";
 import { Canvas, useLoader, useThree } from "@react-three/fiber";
-// import { OrbitControls } from "@react-three/drei";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useHelper } from "@react-three/drei";
-import { SpotLightHelper } from "three";
 import { useControl, withControls } from "react-three-gui";
+
+// import { useHelper } from "@react-three/drei";
+// import { SpotLightHelper } from "three";
+// import { OrbitControls } from "@react-three/drei";
 
 const CameraController = () => {
   const { camera, gl } = useThree();
@@ -35,7 +35,7 @@ function Plane() {
   );
 }
 
-const Head = ({ locationString }) => {
+const Head = ({ locationString, color }) => {
   const ref = useRef();
   const gltf = useLoader(GLTFLoader, locationString);
 
@@ -45,17 +45,29 @@ const Head = ({ locationString }) => {
       ref={ref}
       object={gltf.scene}
       scale={[2, 2, 2]}
+      color={color}
     />
   );
 };
 
-const Box = (props) => {
+const Box = ({ color }) => {
   const ref = useRef();
 
   return (
     <mesh ref={ref}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={"orange"} />
+      <meshStandardMaterial color={color} />
+    </mesh>
+  );
+};
+
+const Sphere = ({ color }) => {
+  const ref = useRef();
+
+  return (
+    <mesh>
+      <sphereBufferGeometry args={[0.7, 30, 30]} attach="geometry" />
+      <meshBasicMaterial color={color} attach="material" />
     </mesh>
   );
 };
@@ -64,6 +76,7 @@ function Scene() {
   const light = useRef();
   const [renderObj, setRenderObj] = useState("Asaro Head");
   const gl = useThree((state) => state.gl);
+  // const [objColor, setObjColor] = useState("blue")
 
   useControl("Screenshot", {
     type: "button",
@@ -80,7 +93,7 @@ function Scene() {
     },
   });
 
-  useHelper(light, SpotLightHelper, "cyan");
+  // useHelper(light, SpotLightHelper, "cyan");
 
   const spotLightX = useControl("Spotlight Pos X", {
     type: "number",
@@ -123,6 +136,11 @@ function Scene() {
     onChange: (val) => setRenderObj(val),
   });
 
+  // const color = useControl("Color", {
+  //   type: "color",
+  // });
+
+  const color = useControl("Color", { type: "color", value: "#fe9966" });
   return (
     <>
       {/* <ambientLight /> */}
@@ -134,8 +152,13 @@ function Scene() {
         position={[spotLightX, spotLightY, spotLightZ]}
       />
       <Suspense fallback={null}>
-        {renderObj === "Asaro Head" && <Head locationString={"/lightref/asaro.glb"} />}
-        {renderObj === "Cube" && <Box position={[0, 0, 0]} />}
+        {renderObj === "Asaro Head" && (
+          <Head locationString={"/lightref/asaro.glb"} color={color} />
+        )}
+        {renderObj === "Cube" && <Box position={[0, 0, 0]} color={color} />}
+        {renderObj === "Sphere" && (
+          <Sphere position={[0, 0, 0]} color={color} />
+        )}
       </Suspense>
       {/* <Plane /> */}
       {/* <OrbitControls /> */}

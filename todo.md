@@ -12,8 +12,12 @@ Action Items:
 [x] Add dropdown menu to controls (possible in react-three-gui?)
 [X] Asaro
 [X] Cube
-[] Sphere
+[x] Sphere
+[] Sphere needs to reflect light
 [] Change color of object
+[x] cube
+[x] sphere
+[] head
 [] Change BG color
 [] Change color of light
 [x] Export snapshot
@@ -26,5 +30,5 @@ Action Items:
 # Notes Afte First Mobile Test:
 
 [] controls menu gets in the way of seeing the affects of the control menu.
-[] Make head larger
+[x] Make head larger
 [] Auto center and scale objects
