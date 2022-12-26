@@ -4,6 +4,9 @@ AAU:
 [x] Square
 [] Sphere
 [x] Asaro Head
+[x] Square
+[] Sphere
+[x] Asaro Head
 [x] Get a snapshot of lighting and download.
 [] Keep my object centered as I revolve around it
 

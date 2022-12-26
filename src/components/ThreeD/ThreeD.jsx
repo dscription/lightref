@@ -144,7 +144,6 @@ function Scene() {
   return (
     <>
       {/* <ambientLight /> */}
-      {/* <CameraController /> */}
       <spotLight
         ref={light}
         castShadow={true}
@@ -161,7 +160,6 @@ function Scene() {
         )}
       </Suspense>
       {/* <Plane /> */}
-      {/* <OrbitControls /> */}
     </>
   );
 }
