@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import { useControl } from "react-three-gui";
-import { useHelper } from "@react-three/drei";
-import { SpotLightHelper } from "three";
 import Plane from "../Plane/Plane";
 import ObjectRender from "../ObjectRender/ObjectRender";
 
@@ -35,8 +33,6 @@ function Scene() {
       link.click();
     },
   });
-
-  useHelper(light, SpotLightHelper, "cyan");
 
   const spotLightX = useControl("Spotlight Pos X", {
     type: "number",
