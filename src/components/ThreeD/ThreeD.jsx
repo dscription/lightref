@@ -1,26 +1,13 @@
-import React, { Component, useState, useRef, Suspense, useEffect } from "react";
+import React, {useState, useRef, Suspense} from "react";
 import { Canvas, useLoader, useThree } from "@react-three/fiber";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useControl, withControls } from "react-three-gui";
+import CameraController from "../CameraController/CameraController";
 
 // import { useHelper } from "@react-three/drei";
 // import { SpotLightHelper } from "three";
 // import { OrbitControls } from "@react-three/drei";
 
-const CameraController = () => {
-  const { camera, gl } = useThree();
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-
-    controls.minDistance = 3;
-    controls.maxDistance = 20;
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
-  return null;
-};
 
 function Plane() {
   return (
@@ -166,19 +153,16 @@ function Scene() {
 
 const MainCanvas = withControls(Canvas);
 
-class ThreeD extends Component {
-  state = {};
-  render() {
-    return (
-      <MainCanvas
-        gl={{ preserveDrawingBuffer: true }}
-        style={{ height: "100vh" }}
-      >
-        <CameraController />
-        <Scene />
-      </MainCanvas>
-    );
-  }
-}
+const ThreeD = () => {
+  return (
+    <MainCanvas
+      gl={{ preserveDrawingBuffer: true }}
+      style={{ height: "100vh" }}
+    >
+      <CameraController />
+      <Scene />
+    </MainCanvas>
+  );
+};
 
 export default ThreeD;
