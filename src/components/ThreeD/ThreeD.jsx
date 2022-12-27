@@ -1,9 +1,9 @@
 import React, {useState, useRef, Suspense} from "react";
-import { Canvas, useLoader, useThree } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useControl, withControls } from "react-three-gui";
 import CameraController from "../CameraController/CameraController";
 import Plane from "../Plane/Plane";
+import Head from "../Objects/Head/Head";
 
 // import { useHelper } from "@react-three/drei";
 // import { SpotLightHelper } from "three";
@@ -12,20 +12,7 @@ import Plane from "../Plane/Plane";
 
 
 
-const Head = ({ locationString, color }) => {
-  const ref = useRef();
-  const gltf = useLoader(GLTFLoader, locationString);
 
-  return (
-    <primitive
-      position={[0, 0, -1]}
-      ref={ref}
-      object={gltf.scene}
-      scale={[2, 2, 2]}
-      color={color}
-    />
-  );
-};
 
 const Box = ({ color }) => {
   const ref = useRef();
