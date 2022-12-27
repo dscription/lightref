@@ -3,24 +3,14 @@ import { Canvas, useLoader, useThree } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useControl, withControls } from "react-three-gui";
 import CameraController from "../CameraController/CameraController";
+import Plane from "../Plane/Plane";
 
 // import { useHelper } from "@react-three/drei";
 // import { SpotLightHelper } from "three";
 // import { OrbitControls } from "@react-three/drei";
 
 
-function Plane() {
-  return (
-    <mesh
-      receiveShadow={true}
-      rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -2, -5]}
-    >
-      <planeBufferGeometry attach="geometry" args={[20, 20]} />
-      <meshPhongMaterial attach="material" color="#D3D3D3" />
-    </mesh>
-  );
-}
+
 
 const Head = ({ locationString, color }) => {
   const ref = useRef();
@@ -146,7 +136,7 @@ function Scene() {
           <Sphere position={[0, 0, 0]} color={color} />
         )}
       </Suspense>
-      {/* <Plane /> */}
+      <Plane />
     </>
   );
 }
