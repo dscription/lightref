@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useThree } from "@react-three/fiber";
 import { useControl } from "react-three-gui";
 import Plane from "../Plane/Plane";
@@ -68,6 +68,13 @@ function Scene() {
     value: 0.5,
   });
 
+  const ambientLightIntensity = useControl("Ambient Light Intensity", {
+    type: "number",
+    min: 0,
+    max: 1,
+    value: 0.5,
+  });
+
   useControl("Choose Shape", {
     type: "select",
     value: "Asaro Head",
@@ -79,7 +86,7 @@ function Scene() {
 
   return (
     <>
-      {ambientLightOn && <ambientLight />}
+      {ambientLightOn && <ambientLight intensity={ambientLightIntensity} />}
 
       <spotLight
         ref={light}
