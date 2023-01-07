@@ -10,6 +10,15 @@ function Scene() {
   const [ambientLightOn, setAmbientLightOn] = useState(false);
   const gl = useThree((state) => state.gl);
 
+  useControl("Choose Shape", {
+    type: "select",
+    value: "Asaro Head",
+    items: ["Asaro Head", "Cube", "Sphere"],
+    onChange: (val) => setRenderObj(val),
+  });
+
+  const color = useControl("Color", { type: "color", value: "#fe9966" });
+
   useControl("Ambient Light", {
     type: "select",
     value: "Off",
@@ -19,19 +28,20 @@ function Scene() {
     },
   });
 
-  useControl("Screenshot", {
-    type: "button",
-    onClick: () => {
-      const link = document.createElement("a");
-      link.setAttribute("download", "canvas.png");
-      link.setAttribute(
-        "href",
-        gl.domElement
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream")
-      );
-      link.click();
-    },
+  // Ambient light intensity
+  const ambientLightIntensity = useControl("Ambient Light Intensity", {
+    type: "number",
+    min: 0,
+    max: 1,
+    value: 0.5,
+  });
+
+  // Spotlight intensity
+  const spotLightIntensity = useControl("Spotlight Intensity", {
+    type: "number",
+    min: 0,
+    max: 1,
+    value: 0.5,
   });
 
   const spotLightX = useControl("Spotlight Pos X", {
@@ -61,28 +71,22 @@ function Scene() {
     spring: false,
   });
 
-  const spotLightIntensity = useControl("Spotlight Intensity", {
-    type: "number",
-    min: 0,
-    max: 1,
-    value: 0.5,
+  // Screenshot control.
+  // ? Is there a way to change the color or styling of the button?
+  useControl("Screenshot", {
+    type: "button",
+    onClick: () => {
+      const link = document.createElement("a");
+      link.setAttribute("download", "canvas.png");
+      link.setAttribute(
+        "href",
+        gl.domElement
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream")
+      );
+      link.click();
+    },
   });
-
-  const ambientLightIntensity = useControl("Ambient Light Intensity", {
-    type: "number",
-    min: 0,
-    max: 1,
-    value: 0.5,
-  });
-
-  useControl("Choose Shape", {
-    type: "select",
-    value: "Asaro Head",
-    items: ["Asaro Head", "Cube", "Sphere"],
-    onChange: (val) => setRenderObj(val),
-  });
-
-  const color = useControl("Color", { type: "color", value: "#fe9966" });
 
   return (
     <>
